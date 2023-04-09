@@ -2,7 +2,7 @@
   <div class="top">
     <div class="box">
         <div class=" top-1">
-            <h1>Animate</h1>
+            <h1>PAI practice</h1>
         </div>
         <div class=" top-2">
 <!--             <input type="text" placeholder="請輸入動漫名稱"> -->
@@ -15,10 +15,15 @@
             </div>
             <div class="tag">
             <router-link :to="{name:'about'}" active-class="active">
-                Anime
+                Product
             </router-link>
             </div>
-            <div class="tag">    
+            <div class="tag">
+            <router-link :to="{name:'order'}" active-class="active">
+                order
+            </router-link>
+            </div>
+            <div class="tag">
                 <router-link :to="{name:'Login'}" active-class="active" @click="logout()">logout
                     <ion-icon name="log-in-outline"></ion-icon>
                 </router-link>
@@ -30,17 +35,17 @@
 
 <script>
 export default {
-    methods:{
-        logout(){
-            const api = `${process.env.VUE_APP_API}logout`
-            this.$http.post(api,this.user)
-            .then((res)=>{
-                if(res.data.success){
-                    this.$router.push('/')
-                }
-            })
-        }
+  methods: {
+    logout () {
+      const api = `${process.env.VUE_APP_API}logout`
+      this.$http.post(api, this.user)
+        .then((res) => {
+          if (res.data.success) {
+            this.$router.push('/')
+          }
+        })
     }
+  }
 }
 </script>
 

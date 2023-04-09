@@ -18,7 +18,7 @@
                       <label for="btncheck"><input type="checkbox" id="btncheck">Click Me</label>
                       <router-link to="">Register</router-link>
                   </div>
-                  <button @click="login">log in</button>                        
+                  <button @click="login">log in</button>
               </form>
           </div>
       </div>
@@ -27,35 +27,35 @@
 
 <script>
 export default {
-    data(){
-        return{
-            user:{
-                username:'',
-                password:''
-            }
-        }
-    },
-     methods:{
-        login(){
-            const api = `${process.env.VUE_APP_API}admin/signin`
-            this.$http.post(api,this.user)
-            .then((res)=>{
-                if(res.data.success){
-                    const {token, expired} = res.data
-                    document.cookie = `hexToken=${token}; expires=${new Date(expired)}`
-                    this.$router.push('/home')
-                }else{
-                    alert('登入失敗')
-                }
-            })
-        }
-     }
+  data () {
+    return {
+      user: {
+        username: '',
+        password: ''
+      }
+    }
+  },
+  methods: {
+    login () {
+      const api = `${process.env.VUE_APP_API}admin/signin`
+      this.$http.post(api, this.user)
+        .then((res) => {
+          if (res.data.success) {
+            const { token, expired } = res.data
+            document.cookie = `hexToken=${token}; expires=${new Date(expired)}`
+            this.$router.push('/home')
+          } else {
+            alert('登入失敗')
+          }
+        })
+    }
+  }
 }
 </script>
 <style scoped>
 *{
     margin: 0;
-    padding: 0;   
+    padding: 0;
 }
 
 section{
@@ -161,6 +161,5 @@ button{
     font-size: 1em;
     font-weight: 600;
 }
-
 
 </style>

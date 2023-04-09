@@ -1,6 +1,6 @@
 <template>
 <!-- Modal -->
-<div class="modal fade box" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" ref="modal">
+<div class="modal fade modal-xl" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" ref="modal">
   <div class="modal-dialog">
 <!-- 請同學自行新增 v-model -->
 <div class="modal-dialog modal-xl" role="document">
@@ -24,7 +24,8 @@
             <label for="customFile" class="form-label">或 上傳圖片
               <i class="fas fa-spinner fa-spin"></i>
             </label>
-            <input type="file" id="customFile" class="form-control">
+            <input type="file" id="customFile" class="form-control"
+            @change="uploadFile" ref="fileInput">
           </div>
           <img class="img-fluid" alt="">
           <!-- 延伸技巧，多圖 -->
@@ -92,7 +93,8 @@
               <input class="form-check-input" type="checkbox"
                       :true-value="1"
                       :false-value="0"
-                      id="is_enabled">
+                      id="is_enabled"
+                      v-model="tempProduct.is_enabled">
               <label class="form-check-label" for="is_enabled">
                 是否啟用
               </label>
@@ -114,52 +116,52 @@
 </template>
 
 <script>
-import Modal from 'bootstrap/js/dist/modal'
+import modalMixins from '@/mixins/modalMixins'
 export default {
-  props:{
-    product:{
-      type:Object,
-      deflaut(){return{};},
+  watch: {
+    product () {
+      this.tempProduct = this.product
     }
   },
-  watch:{
-    product(){
-      this.tempProduct =  this.product
-    }
-  },
-    data(){
-        return{
-            modal:{
-            },
-            tempProduct:{
-              "title":'',
-              "category":'',
-              "price":'',
-              "origin_price":'',
-              "unit":'',
-              "image":'',
-              "description":'',
-              "content":'',
-              "is_enabled":'',
-              "imageUrl":'',
-            }
-        }
-    },
-    methods:{
-      showModal() {
-        this.modal.show()
-      },
-      hideModal() {
-        this.modal.hide()
+  data () {
+    return {
+      modal: {},
+      tempProduct: {
+        title: '',
+        category: '',
+        price: '',
+        origin_price: '',
+        unit: '',
+        image: '',
+        description: '',
+        content: '',
+        is_enabled: '',
+        imageUrl: ''
       }
-    },
-    mounted(){
-        this.modal = new Modal(this.$refs.modal)
-    },
+    }
+  },
+  methods: {
+    uploadFile () {
+      const uploadFile = this.$refs.fileInput.files[0]
+      const formData = new FormData()
+      formData.append('file-to-upload', uploadFile)
+      const url = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/upload`
+      this.$http.post(url, formData)
+        .then((response) => {
+          console.log(response)
+          if (response.data.success) {
+            this.tempProduct.imageUrl = response.data.imageUrl
+          }
+        })
+    }
+  },
+  props: {
+    product: {
+      type: Object,
+      deflaut () { return {} }
+    }
+  },
+  mixins: [modalMixins]
+
 }
 </script>
-
-<style scoped>
-.box {
-}
-</style>

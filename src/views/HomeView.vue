@@ -1,6 +1,6 @@
 <template>
+  <Navbar/>
   <div class="container-fluid home animate__animated animate__fadeIn">
-    <Navbar></Navbar>
     <div class="box">
         <div class="title">
             <h1>Anime <br>Database</h1>
@@ -34,13 +34,11 @@
 
 <script>
 // @ is an alias to /src
-
 import Navbar from '@/components/Navbar.vue';
-
 export default {
   components: {
-    Navbar
-},
+    Navbar,
+  }
 }
 </script>
 
@@ -111,7 +109,6 @@ h2{
     color:white;
     font-size: 20px;
 }
-
 
 .box2{
     width: 100%;
